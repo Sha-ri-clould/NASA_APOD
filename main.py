@@ -19,16 +19,15 @@ response = requests.get("https://api.nasa.gov/planetary/apod?"
                         f"""api_key={API_key}""")
 contents = response.json()
 
-if submit:
-    for content in contents:
-        if content["media_type"] == "image":
-            st.subheader(f"""{content["title"]} - {date}""")
-            img = requests.get(content["hdurl"])
-            with open("nasa_apod.jpg", "wb") as file:
-                file.write(img.content)
-                st.image("nasa_apod.jpg")
-            st.subheader("Let's Dive Deeper!")
-            st.text(content["explanation"])
+for content in contents:
+    if content["media_type"] == "image":
+        st.subheader(f"""{content["title"]} - {date}""")
+        img = requests.get(content["hdurl"])
+        with open("nasa_apod.jpg", "wb") as file:
+            file.write(img.content)
+            st.image("nasa_apod.jpg")
+        st.subheader("Let's Dive Deeper!")
+        st.text(content["explanation"])
 
-        else:
-            st.error("PICK ANOTHER DATE")
+    else:
+        st.error("PICK ANOTHER DATE")
